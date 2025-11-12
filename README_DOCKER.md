@@ -1,6 +1,6 @@
-# Sistema de Reservas - Django + Java + Docker 🧩
+# Sistema de Reservas - Django + Java + Docker 
 
-## 🚀 Cómo ejecutar
+##  Cómo ejecutar
 ```bash
 docker compose up --build
 API Java → http://localhost:8080/reservas
