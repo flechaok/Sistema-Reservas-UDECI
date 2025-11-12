@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card shadow-sm p-4">
+    <h2 class="text-center mb-4">
+        {% if reserva %}Editar Reserva{% else %}Nueva Reserva{% endif %}
+    </h2>
+
+    {% if error %}
+    <div class="alert alert-danger text-center">{{ error }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="persona" class="form-label fw-bold">Persona</label>
+            <input type="text" class="form-control" id="persona" name="persona"
+                   value="{% if reserva and reserva.persona %}{{ reserva.persona.nombre|default:reserva.persona }}{% endif %}"
+                   list="personas-list">
+            <datalist id="personas-list">
+                {% for p in personas %}
+                <option value="{{ p.nombre }}"></option>
+                {% endfor %}
+            </datalist>
+        </div>
+
+        <div class="mb-3">
+            <label for="sala" class="form-label fw-bold">Sala</label>
+            <input type="text" class="form-control" id="sala" name="sala"
+                   value="{% if reserva and reserva.sala %}{{ reserva.sala.nombre|default:reserva.sala }}{% endif %}"
+                   list="salas-list">
+            <datalist id="salas-list">
+                {% for s in salas %}
+                <option value="{{ s.nombre }}"></option>
+                {% endfor %}
+            </datalist>
+        </div>
+
+        <div class="mb-3">
+            <label for="articulo" class="form-label fw-bold">Artículo</label>
+            <input type="text" class="form-control" id="articulo" name="articulo"
+                   value="{% if reserva and reserva.articulo %}{{ reserva.articulo.nombre|default:reserva.articulo }}{% endif %}"
+                   list="articulos-list">
+            <datalist id="articulos-list">
+                {% for a in articulos %}
+                <option value="{{ a.nombre }}"></option>
+                {% endfor %}
+            </datalist>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="fechaHoraInicio" class="form-label fw-bold">Inicio</label>
+                <input type="datetime-local" class="form-control" id="fechaHoraInicio" name="fechaHoraInicio"
+                       value="{% if reserva %}{{ reserva.fechaHoraInicio|date:'Y-m-d\\TH:i' }}{% endif %}">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="fechaHoraFin" class="form-label fw-bold">Fin</label>
+                <input type="datetime-local" class="form-control" id="fechaHoraFin" name="fechaHoraFin"
+                       value="{% if reserva %}{{ reserva.fechaHoraFin|date:'Y-m-d\\TH:i' }}{% endif %}">
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success btn-custom me-2">
+                {% if reserva %}Actualizar{% else %}Crear{% endif %}
+            </button>
+            <a href="{% url 'lista_reservas' %}" class="btn btn-secondary btn-custom">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

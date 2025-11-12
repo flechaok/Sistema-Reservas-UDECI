@@ -1,0 +1,16 @@
+# Ignorar todo target excepto el jar final
+target/*
+!target/reservas-0.0.1-SNAPSHOT.jar
+
+# Ignorar archivos locales e IDE
+.idea
+.vscode
+*.iml
+.DS_Store
+
+# Ignorar control de versiones
+.git
+.gitignore
+
+# Logs y binarios
+*.log

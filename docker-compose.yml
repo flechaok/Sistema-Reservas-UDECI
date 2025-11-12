@@ -1,0 +1,88 @@
+#version: "3.8"
+#
+#services:
+#  java-service:
+#    build:
+#      context: ./0-Microservicio-Java-Reservas-User
+#      dockerfile: Dockerfile
+#    container_name: java-service
+#    ports:
+#      - "8080:8080"
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health || exit 1"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 10s
+#    networks:
+#      - reserva_net
+#
+#  django-service:
+#    build:
+#      context: ./django-service
+#      dockerfile: Dockerfile.runtime
+#    container_name: django-service
+#    depends_on:
+#      java-service:
+#        condition: service_healthy   # si tu versión de compose no soporta condition, dejá solo depends_on: - java-service
+#    environment:
+#      JAVA_API_BASE: "http://java-service:8080"
+#      JAVA_API_USER: "admin"
+#      JAVA_API_PASSWORD: "admin123"
+#      PYTHONUNBUFFERED: "1"
+#    ports:
+#      - "8000:8000"
+#    volumes:
+#      - ./django-service:/app   # útil en dev para ver cambios sin rebuild
+#    networks:
+#      - reserva_net
+#
+#networks:
+#  reserva_net:
+#    driver: bridge
+
+version: "3.8"
+
+services:
+  java-service:
+    build:
+      context: ./0-Microservicio-Java-Reservas-User
+      dockerfile: Dockerfile
+    container_name: java-service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_H2_CONSOLE_SETTINGS_WEB-ALLOW-OTHERS: "true" 
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-u", "admin:admin123", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - reserva_net
+
+  django-service:
+    build:
+      context: ./django-service
+      dockerfile: Dockerfile.runtime
+    container_name: django-service
+    depends_on:
+      java-service:
+        condition: service_healthy   # Espera a que el java-service esté "healthy"
+    environment:
+      JAVA_API_BASE: "http://java-service:8080"
+      JAVA_API_USER: "admin"
+      JAVA_API_PASSWORD: "admin123"
+      PYTHONUNBUFFERED: "1"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./django-service:/app   # En desarrollo, para reflejar cambios sin rebuild
+    networks:
+      - reserva_net
+
+networks:
+  reserva_net:
+    driver: bridge
+

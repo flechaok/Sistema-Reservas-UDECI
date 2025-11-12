@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Lista de Reservas</h1>
+
+<div class="d-flex justify-content-start mb-3">
+    <a href="{% url 'nueva_reserva' %}" class="btn btn-primary btn-custom me-2">
+        <i class="bi bi-plus-circle"></i> Nueva Reserva
+    </a>
+    <a href="{% url 'predictivo' %}" class="btn btn-warning btn-custom text-dark">
+        <i class="bi bi-graph-up"></i> Predicciones
+    </a>
+</div>
+
+<table class="table table-striped table-bordered table-hover shadow-sm align-middle">
+    <thead class="table-dark text-center">
+    <tr>
+        <th>ID</th>
+        <th>Persona</th>
+        <th>Sala</th>
+        <th>Artículo</th>
+        <th>Inicio</th>
+        <th>Fin</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for r in reservas %}
+    <tr>
+        <td class="text-center">{{ r.id }}</td>
+        <td>{{ r.persona.nombre|default:r.persona }}</td>
+        <td>{{ r.sala.nombre|default:r.sala }}</td>
+        <td>{{ r.articulo.nombre|default:r.articulo }}</td>
+        <td>{{ r.fechaHoraInicio }}</td>
+        <td>{{ r.fechaHoraFin }}</td>
+        <td class="text-center">
+            <a href="{% url 'editar_reserva' r.id %}" class="btn btn-sm btn-primary me-1">
+                <i class="bi bi-pencil-square"></i> Editar
+            </a>
+            <a href="{% url 'eliminar_reserva' r.id %}" class="btn btn-sm btn-danger">
+                <i class="bi bi-trash"></i> Eliminar
+            </a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="7" class="text-center">No hay reservas disponibles.</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

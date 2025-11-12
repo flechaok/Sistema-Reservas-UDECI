@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="mb-4">Panel Predictivo</h1>
+
+<!--  Sección de predicciones resumidas -->
+<div class="predicciones" style="background-color: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 30px;">
+    <h3>Predicciones de tendencia</h3>
+    <p><strong>🧩 Recursos:</strong> {{ predicciones.recursos }}</p>
+    <p><strong>🏢 Salas:</strong> {{ predicciones.salas }}</p>
+    <p><strong>⏰ Pico horario:</strong> {{ predicciones.pico_horario }}</p>
+</div>
+
+<!--  Contenedor de gráficos -->
+<div class="charts-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px;">
+
+    <div class="chart">
+        <h3>Reservas por día (con tendencia)</h3>
+        <img src="data:image/png;base64,{{ images.por_dia }}" alt="Reservas por día" style="width:100%; border-radius:8px;">
+    </div>
+
+    <div class="chart">
+        <h3>Demanda reciente por recurso (últimas 3 semanas)</h3>
+        <img src="data:image/png;base64,{{ images.demanda_recurso }}" alt="Demanda por recurso" style="width:100%; border-radius:8px;">
+    </div>
+
+    <div class="chart">
+        <h3>Demanda por pico horario</h3>
+        <img src="data:image/png;base64,{{ images.pico_horario }}" alt="Picos horarios" style="width:100%; border-radius:8px;">
+    </div>
+
+    <div class="chart">
+        <h3>Salas más reservadas</h3>
+        <img src="data:image/png;base64,{{ images.por_sala }}" alt="Salas" style="width:100%; border-radius:8px;">
+    </div>
+
+    <div class="chart">
+        <h3>Artículos más reservados</h3>
+        <img src="data:image/png;base64,{{ images.por_articulo }}" alt="Artículos" style="width:100%; border-radius:8px;">
+    </div>
+
+</div>
+
+{% endblock %}

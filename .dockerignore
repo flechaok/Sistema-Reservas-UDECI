@@ -1,0 +1,25 @@
+# Ignorar carpetas y archivos de control de versiones o IDE
+.git
+.idea
+.vscode
+*.iml
+.gitignore
+
+# Ignorar entornos virtuales o dependencias locales
+venv
+.venv
+node_modules
+dist
+
+# Ignorar archivos de compilación innecesarios
+*.class
+*.log
+__pycache__
+
+# Ignorar todo dentro de target, excepto el .jar necesario
+target/*
+!target/reservas-0.0.1-SNAPSHOT.jar
+
+# (opcional) ignorar configuraciones o archivos locales
+.env
+admin

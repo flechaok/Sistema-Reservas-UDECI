@@ -1,0 +1,23 @@
+# Ignorar entornos virtuales y caches
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Entornos virtuales
+.venv
+venv
+
+# Archivos y carpetas locales
+.env
+.vscode
+.idea
+.DS_Store
+
+# Control de versiones
+.git
+.gitignore
+
+# Archivos de sistema
+*.log
+*.sqlite3
